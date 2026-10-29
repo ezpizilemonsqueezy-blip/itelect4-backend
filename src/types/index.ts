@@ -32,6 +32,22 @@ export interface Item {
   foundAt: Date;
 }
 
+export const CLAIM_STATUSES = ["Pending", "Approved", "Rejected"] as const;
+export type ClaimStatus = (typeof CLAIM_STATUSES)[number];
+
+export interface Category {
+  name: ItemCategory;
+  description: string;
+}
+
+export interface Claim {
+  itemId: Types.ObjectId;
+  userId: Types.ObjectId;
+  claimantName: string;
+  email: string;
+  status: ClaimStatus;
+}
+
 export interface JwtPayload {
   userId: string;
 }

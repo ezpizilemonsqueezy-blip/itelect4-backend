@@ -4,15 +4,26 @@ import mongoose from "mongoose";
 import authRouter from "./routes/auth.js";
 import itemRouter from "./routes/items.js";
 import aiRouter from "./routes/ai.js";
+import categoryRouter from "./routes/categories.js";
+import claimRouter from "./routes/claims.js";
 import { connectDB } from "./config/db.js";
 
 const app = express();
 
-app.use(cors());
+// CORS_ORIGIN is a comma-separated list, e.g.
+// "http://localhost:5173,https://my-frontend.vercel.app". Other origins are refused.
+const allowedOrigins = (process.env.CORS_ORIGIN ?? "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json({ limit: "1mb" }));
 
-app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok" });
+// Health still answers when MongoDB is down, reporting db: false instead of a 500.
+app.get("/api/health", async (_req, res) => {
+  await connectDB().catch(() => undefined);
+  res.json({ status: "ok", db: mongoose.connection.readyState === 1 });
 });
 
 // Vercel invokes the exported Express app without running server.ts. Connect
@@ -24,6 +35,8 @@ app.use((_req, _res, next) => {
 app.use("/api/auth", authRouter);
 app.use("/api/items", itemRouter);
 app.use("/api/ai", aiRouter);
+app.use("/api/categories", categoryRouter);
+app.use("/api/claims", claimRouter);
 
 app.use((_req, res) => {
   res.status(404).json({ message: "Route not found" });
