@@ -5,8 +5,9 @@ Standalone Express, TypeScript, and MongoDB API for the Campus Recovery Desk los
 ## Setup
 
 1. Run `npm install`.
-2. Copy `.env.example` to `.env`, then set `MONGODB_URI`, a long random `JWT_SECRET`, and `GEMINI_API_KEY` from Google AI Studio. Keep the Gemini key in the backend environment; never add it to the frontend.
-3. Run `npm run dev` for development or `npm run build` followed by `npm start` for production.
+2. Copy `.env.example` to `.env`, then set `MONGODB_URI`, a long random `JWT_SECRET`, and optionally `GEMINI_API_KEY` from Google AI Studio. Keep the Gemini key in the backend environment; never add it to the frontend.
+3. For MongoDB Atlas, create a project and cluster, add a database user, and allow your network IP (or `0.0.0.0/0` temporarily for development). In Atlas, choose **Connect > Drivers**, copy the URI, replace `<username>`, `<password>`, `<cluster-host>`, and `<database>`, then set it as `MONGODB_URI` in `.env`. URL-encode special characters in the database password.
+4. Run `npm run dev` for development or `npm run build` followed by `npm start` for production.
 
 The API listens on port 4000 by default. Health check: `GET /api/health`.
 
