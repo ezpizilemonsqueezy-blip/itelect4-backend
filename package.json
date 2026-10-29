@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "seed": "tsx src/scripts/seed.ts",
     "try-ai": "npm run build && node dist/try-ai.js",
     "build": "tsc",
     "start": "node dist/server.js",
