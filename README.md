@@ -1,3 +1,5 @@
+[![CI](https://github.com/ezpizilemonsqueezy-blip/itelect4-backend/actions/workflows/ci.yml/badge.svg)](https://github.com/ezpizilemonsqueezy-blip/itelect4-backend/actions/workflows/ci.yml)
+
 # Itelect4 Backend
 
 Standalone Express, TypeScript, and MongoDB API for the Campus Recovery Desk lost-and-found app.
@@ -12,6 +14,10 @@ Standalone Express, TypeScript, and MongoDB API for the Campus Recovery Desk los
 6. Run `npm run dev` for development or `npm run build` followed by `npm start` for production.
 
 The API listens on port 4000 by default. Health check: `GET /api/health` returns `{ "status": "ok", "db": true }` when MongoDB is connected.
+
+## Testing
+
+`npm test` runs Vitest with Supertest. `tests/claims.test.ts` checks the `requireAuth`-protected `GET /api/claims`: 401 without a token, 401 with a wrongly signed token, and 200 with a valid one. `connectDB` and the models are replaced with `vi.mock`, so no database is needed. `npm run typecheck` type-checks both `src` and `tests`. GitHub Actions runs both on every push, with `JWT_SECRET` supplied as a repository secret.
 
 ## Deploying to Vercel
 
