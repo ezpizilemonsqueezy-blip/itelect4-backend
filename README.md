@@ -22,7 +22,7 @@ The API listens on port 4000 by default. Health check: `GET /api/health` returns
 - `GET /api/categories` and `GET /api/categories/:id` are public and return the reference categories (`id`, `name`, `description`) that the item form's dropdown reads.
 - `POST /api/auth/register` accepts `{ "name", "email", "password" }` and always assigns the `student` role.
 - `POST /api/auth/login` accepts `{ "email", "password" }` and returns a two-hour bearer token and user.
-- `GET|POST /api/items` and `GET|PATCH|DELETE /api/items/:id` require `Authorization: Bearer <token>` and operate only on the authenticated user's items.
+- `GET /api/items` and `GET /api/items/:id` are public so anyone can browse recovered items. `POST /api/items` and `PATCH|DELETE /api/items/:id` require `Authorization: Bearer <token>` and operate only on the authenticated user's items.
 - `GET|POST /api/claims` and `PATCH /api/claims/:id` require a bearer token. `GET` returns the claims you submitted plus the claims on items you logged. `POST` takes `{ "itemId", "claimantName", "email" }` and always starts as `Pending`. `PATCH` takes `{ "status": "Approved" | "Rejected" }` and is allowed only for the owner of the claimed item, once.
 - `POST /api/ai` requires `Authorization: Bearer <token>` and `{ "prompt": "..." }` (20–2000 trimmed characters). It returns a checked review with `summary`, `strengths`, `improvements`, and `readiness` (`ready`, `almost`, or `not-yet`). Each user is limited to five requests per minute per API instance. Add `VITE_API_URL=http://localhost:4000` to the frontend environment if the API is not at its default URL.
 
