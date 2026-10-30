@@ -29,6 +29,19 @@ function tokenFor(userId: string, secret = process.env.JWT_SECRET as string): st
   return jwt.sign({ userId }, secret, { expiresIn: "5m" });
 }
 
+describe("GET /", () => {
+  it("identifies the backend and links to the health endpoint", async () => {
+    const response = await request(app).get("/");
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      name: "Itelect4 Backend API",
+      status: "ok",
+      health: "/api/health",
+    });
+  });
+});
+
 describe("GET /api/claims (behind requireAuth)", () => {
   beforeEach(() => {
     itemFind.mockReset().mockReturnValue({ distinct: vi.fn().mockResolvedValue([]) });

@@ -20,6 +20,14 @@ const allowedOrigins = (process.env.CORS_ORIGIN ?? "")
 app.use(cors({ origin: allowedOrigins }));
 app.use(express.json({ limit: "1mb" }));
 
+app.get("/", (_req, res) => {
+  res.json({
+    name: "Itelect4 Backend API",
+    status: "ok",
+    health: "/api/health",
+  });
+});
+
 // Health still answers when MongoDB is down, reporting db: false instead of a 500.
 app.get("/api/health", async (_req, res) => {
   await connectDB().catch(() => undefined);
